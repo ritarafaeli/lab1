@@ -206,8 +206,10 @@ Invalid_argument exception for instance.
 ......................................................................
 *)
 
-let max_list (lst : int list) : int =
-  failwith "max_list not implemented" ;;
+let rec max_list (lst : int list) : int =
+	match lst with
+	| [] -> raise (Invalid_argument "empty list")
+	| h::t -> max h (max_list t);;
 
 (*
 ......................................................................
