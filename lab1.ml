@@ -226,8 +226,12 @@ that, zip [1] [2; 3; 4] = [(1, 2); (false, 3); (false, 4)]?
 ......................................................................
 *)
 
-let zip (x : int list) (y : int list) : (int * int) list =
-  failwith "zip not implemented" ;;
+let rec zip (x : int list) (y : int list) : (int * int) list =
+  match x,y with
+	| l,[]-> raise (Invalid_argument "mistmatched list lengths")
+	| [],l-> raise (Invalid_argument "mistmatched list lengths")
+	| h1::[],h2::[] -> (h1,h2)::[]
+	| h1::t1,h2::t2 -> (h1,h2) :: zip t1 t2 ;;
 
 (*
 ......................................................................
@@ -260,7 +264,8 @@ let rec prods (lst : (int * int) list) : int list =
   | (x, y) :: tail -> (x * y) :: (prods tail) ;;
 
 let dotprod (a : int list) (b : int list) : int =
-  failwith "dotprod not implemented" ;;
+	sum (prods (zip a b));;
+	
 
 (*====================================================================
 Part 3: High-order functional programming with map, filter, and fold
